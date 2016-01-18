@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>class demo</title>
+  <style>
+  div, span {
+    width: 120px;
+    height: 40px;
+    float: left;
+    padding: 10px;
+    margin: 10px;
+    background-color: #EEEEEE;
+    border: 3px solid green;
+  }
+  </style>
+
+</head>
+<body>
+
+<div class="notMe">div class="notMe"</div>
+<div class="myClass">div class="myClass"</div>
+<div class="guillermo">div class="guillermo"</div>
+<div class="jota">div class="jota"</div>
+<span class="myClass">span class="myClass"</span>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+$( "div.myClass, div.notMe" ).css( "border", "3px solid red" );
+</script>
+
+</body>
+</html>

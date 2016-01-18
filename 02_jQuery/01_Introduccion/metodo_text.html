@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>text demo</title>
+  <style>
+  p {
+    color: blue;
+    margin: 8px;
+  }
+  </style>
+
+</head>
+<body>
+
+<p id="test-parrafo">Texto por defecto</p>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+$( document ).ready(function() {
+  // Método text sin parámetro, rescata el texto del selector
+  alert($( "#test-parrafo" ).text());
+  // Modifico el texto del selector.
+  $( "#test-parrafo" ).text( "Texto nuevo" );
+});
+</script>
+
+</body>
+</html>
