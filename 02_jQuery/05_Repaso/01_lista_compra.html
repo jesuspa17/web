@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Método parent</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Basic Table</h2>
+  <p>The .table class adds basic styling (light padding and only horizontal dividers) to a table:</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nº</th>
+        <th>Producto</th>
+        <th>Descripción</th>
+        <th>Talla</th>
+        <th>Color</th>
+        <th>Cantidad</th>
+        <th>Importe</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="producto-1">
+        <td>01</td>
+        <td>IMG</td>
+        <td>Camiseta</td>
+        <td>M</td>
+        <td>
+          <button type="button" class="btn btn-small btn-danger btn-color">Rojo</button>
+        </td>
+        <td>
+          <input type="number" class="unidades" value="1" min="1" max="100" />
+        </td>
+        <td><span class="precio" precio="3.99">3,99</span>€</td>
+        <td>
+          <button type="button" class="btn btn-small btn-danger btn-delete-producto">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar
+          </button>
+        </td>
+      </tr>
+      <tr id="producto-2">
+        <td>02</td>
+        <td>IMG</td>
+        <td>Jeans</td>
+        <td>40</td>
+        <td>
+          <button type="button" class="btn btn-small btn-info btn-color">Azul</button>
+        </td>
+        <td>
+          <input type="number" class="unidades" value="1" min="1" max="100" />
+        </td>
+        <td><span class="precio" precio="12.99">12,99</span>€</td>
+        <td>
+          <button type="button" class="btn btn-small btn-danger btn-delete-producto">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+$(document).on("change",".unidades",function(){
+  var numUnidades = $(this).val();
+  var spanPrecio = $(this).closest('tr').find('.precio');
+  var precio = spanPrecio.attr('precio');
+  var precioProducto = parseFloat(numUnidades)*parseFloat(precio);
+  spanPrecio.text(precioProducto.toFixed(2));
+});
+</script>
+</body>
+</html>
