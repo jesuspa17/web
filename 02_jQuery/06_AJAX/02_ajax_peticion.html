@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>AJAX</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Ranking</h2>
+  <p>The .table class adds basic styling (light padding and only horizontal dividers) to a table:</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nº</th>
+        <th>Nick</th>
+        <th>Puntos</th>
+      </tr>
+    </thead>
+    <tbody id="ranking">
+      
+    </tbody>
+  </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+$( document ).ready(function() {
+  // AJAX para cargar los datos del ranking
+  function reloadRanking() {
+  $.ajax({
+      type: "GET",
+      url: "http://rest.miguelcr.com/killduck/ranking",
+      data: "",
+      dataType: "json", //set to JSON
+      success: function(respuesta)
+      {
+
+          /*respuesta = '[{"id":"1","nickname":"mike","points":"0"},
+                        {"id":"2","nickname":"jesuspa","points":"0"}] '*/
+          console.log(respuesta);
+
+          var json_obj = $.parseJSON(respuesta);//parse JSON
+
+          var output="";
+          var cont = 1;
+          for (var i in json_obj)
+          {
+              output += '<tr><td>'+cont+'</td><td class="nick">'+json_obj[i].nickname+'</td><td><input type="number" min="0" class="points" value="'+json_obj[i].points+'"/></td></tr>';
+              cont++;
+          }
+
+          $('#ranking').html(output);
+      },
+      error: function(error) {
+        alert("No se ha podido obtener el ranking. Inténtelo de nuevo");
+      }
+  });
+}
+
+// Llamo a la función que carga el ranking
+reloadRanking();
+
+  $(document).on("change",".points",function(){
+    var nicknameSeleccionado = $(this).closest('tr').find('.nick').text();
+    var puntosSeleccionado = $(this).val();
+
+    $.ajax({
+        type: "GET",
+        url: "http://rest.miguelcr.com/killduck/user",
+        data: {nickname: nicknameSeleccionado, points: puntosSeleccionado},
+        dataType: "json", //set to JSON
+        success: function(respuesta)
+        {
+            //alert("Actualizado "+nicknameSeleccionado+" con "+puntosSeleccionado+" puntos");
+            reloadRanking();
+        },
+        error: function(error) {
+          alert("No se ha podido obtener el ranking. Inténtelo de nuevo");
+        }
+    });
+  });
+});
+</script>
+</body>
+</html>
