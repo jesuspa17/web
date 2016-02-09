@@ -32,7 +32,6 @@ $( document ).ready(function() {
     $.ajax({
         type: "GET",
         url: "http://rest.miguelcr.com/killduck/ranking",
-        data: "",
         dataType: "json", //set to JSON
         success: function(respuesta)
         {
@@ -41,7 +40,7 @@ $( document ).ready(function() {
                           {"id":"2","nickname":"jesuspa","points":"0"}] '*/
             console.log(respuesta);
 
-	          var json_obj = $.parseJSON(respuesta);//parse JSON
+	          var json_obj = JSON.parse(respuesta);//parse JSON
 
             var output="";
             var cont = 1;
