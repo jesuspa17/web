@@ -52,7 +52,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Cargando...</h4>
+        <h4 class="modal-title" id="title-loading">Cargando...</h4>
       </div>
       <div class="modal-body">
 
@@ -60,7 +60,7 @@
       <div class="modal-footer">
         <div class="progress">
         <div class="progress-bar progress-bar-striped active" id="progressbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-          <span class="sr-only">0% completado</span>
+          <span id="loading-number">0% completado</span>
         </div>
       </div>
       </div>
@@ -78,29 +78,44 @@
 <script>
 $(document).ready(function(){
 
+  var db = new ydn.db.Storage('db-app-login');
+  db.get('usuario_login', 'idlogin').always(function(user) {
+    // Imprimo por la consola del navegador los
+    // datos del usuario
+    console.log(user);
+  });
 
 $(document).on("click","#btnLogin",function(){
     var email = $("#inputEmail").val();
     var password = $("#inputPassword").val();
 
+
+
     // Email & password correcto
-    if(email=="admin@admin.com" && password=="1234") {
+    if((email=="admin@admin.com" && password=="1234")
+        || (email=="gestor@admin.com" && password=="1234")) {
       $("#message").addClass("hidden");
-      var db = new ydn.db.Storage('db-app-login');
+
       db.put('usuario_login', {email: email}, 'idlogin');
 
       $("#modalLoading").modal('show');
 
       for(i=1; i<=100; i++) {
+        var tiempo = 100+i*700;
         setTimeout(function(){
           $("#progressbar").css("width",i+"%");
-        }, 100+i*700);
+          $('#loading-number').text(i+"% completado");
+        }, tiempo);
       }
 
-      $("#modalLoading").modal('hide');
+
 
       // Redirección a la página de usuario logueado
-      window.location.href = "./02_jquery_api_storage_logged.html";
+      setTimeout(function(){
+        $("#modalLoading").modal('hide');
+        window.location.href = "./02_jquery_api_storage_logged.html";
+      }, 2000);
+
     } else {
       $("#message").removeClass("hidden");
     }
