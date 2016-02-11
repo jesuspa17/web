@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Registro</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilo.css">
+  </head>
+  <body>
+
+
+    <div class="container cajaRegistro">
+      <div class="row">
+        <h2>Darse de alta</h2>
+        <div class="col-xs-12 col-sm-9">
+          Rellene los campos para darse de alta!
+        </div>
+      </div>
+
+      <hr/>
+
+  <form class="centrar">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Introduzca email</label>
+      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Introduzca contraseña</label>
+      <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
+    </div>
+    <button type="button" id="btnRegistro" class="btn btn-default">Registrarse</button>
+  </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="./ydn.db-is-core-qry.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <script>
+
+  $(document).ready(function(){
+
+    var db = new ydn.db.Storage('db-app-login');
+    var num_usuarios = 0;
+
+    db.values('usuario_login').always(function(records) {
+      alert(records.length);
+      console.log(records);
+
+      num_usuarios = records.length;
+    });
+
+    $('#btnRegistro').on('click',function(){
+    alert(num_usuarios);
+    var emailRegistro = $('#inputEmail').val();
+    var passRegistro = $('#inputPassword').val();
+
+    if(emailRegistro!="" && passRegistro != ""){
+      db.put('usuario_login',{email: emailRegistro,password:passRegistro}, 'idlogin'+num_usuarios + 1);
+      window.location.href = "./02_jquery_api_storage_login.html";
+    }
+
+    $('#inputEmail').val('');
+    $('#inputPassword').val('');
+
+    db.from('usuario_login').list(50).done(function(users) {
+      console.log(users);
+    });
+
+
+    });
+
+  });
+
+  </script>
+  </body>
+</html>

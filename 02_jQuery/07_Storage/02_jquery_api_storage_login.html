@@ -39,6 +39,8 @@
     <input type="password" class="form-control" id="inputPassword" placeholder="Password">
   </div>
   <button type="button" id="btnLogin" class="btn btn-default">Login</button>
+  <button type="button" id="btnRegistro" class="btn btn-default">Registrarse</button>
+
 </form>
 
   </div>
@@ -79,10 +81,16 @@
 $(document).ready(function(){
 
   var db = new ydn.db.Storage('db-app-login');
+  var nomUser = "";
+  var pass = "";
   db.get('usuario_login', 'idlogin').always(function(user) {
     // Imprimo por la consola del navegador los
     // datos del usuario
-    console.log(user);
+    nomUser = user.email;
+    pass = user.password;
+
+    console.log(nomUser);
+    console.log(pass);
   });
 
 $(document).on("click","#btnLogin",function(){
@@ -92,11 +100,10 @@ $(document).on("click","#btnLogin",function(){
 
 
     // Email & password correcto
-    if((email=="admin@admin.com" && password=="1234")
-        || (email=="gestor@admin.com" && password=="1234")) {
+    if((email==nomUser && password==pass)) {
       $("#message").addClass("hidden");
 
-      db.put('usuario_login', {email: email}, 'idlogin');
+      db.put('usuario_login', {email: email, password: password}, 'idlogin');
 
       $("#modalLoading").modal('show');
 
@@ -107,8 +114,6 @@ $(document).on("click","#btnLogin",function(){
           $('#loading-number').text(i+"% completado");
         }, tiempo);
       }
-
-
 
       // Redirección a la página de usuario logueado
       setTimeout(function(){
@@ -121,6 +126,11 @@ $(document).on("click","#btnLogin",function(){
     }
 
 });
+
+$('#btnRegistro').on('click',function(){
+    window.location.href = "./registro.html";
+});
+
 
 
 });
